@@ -280,10 +280,6 @@ export const main = async () => {
     // istanbul ignore next
     const client = new github.GitHub(args.repoToken, {
       log: {
-        debug: (...args) => core.debug(octokitLogger(...args)),
-        info: (...args) => core.debug(octokitLogger(...args)),
-        warn: (...args) => core.warning(octokitLogger(...args)),
-        error: (...args) => core.error(octokitLogger(...args)),
       },
     });
 
