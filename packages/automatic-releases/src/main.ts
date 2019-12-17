@@ -279,8 +279,7 @@ export const main = async () => {
 
     // istanbul ignore next
     const client = new github.GitHub(args.repoToken, {
-      log: {
-      },
+      log: {},
     });
 
     core.startGroup('Initializing the Automatic Releases action');
