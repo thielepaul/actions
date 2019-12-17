@@ -21,31 +21,8 @@ jobs:
         run: |
           yarn run reinstall
           yarn run build
-
-      - uses: "./packages/automatic-releases/"
+      - uses: actions/upload-artifact@v1
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
-          files: |
-            packages/automatic-releases/dist/index.js
-            packages/keybase-notifications/dist/index.js
-            packages/keybase-notifications/dist/keybase
-        id: "automatic_releases"
+          name: dist
+          path: packages/automatic-releases/dist/
 
-      # marvinpinto/action-keybase-notifications
-      # marvinpinto/action-automatic-releases
-      - name: "Automatically mirror release artifacts"
-        env:
-          GITHUB_SUPER_TOKEN: ${{ secrets.GITHUB_SUPER_TOKEN }}
-        run: |
-          ./scripts/mirror-actions.sh "$AUTOMATIC_RELEASES_TAG"
-
-      - uses: "./packages/keybase-notifications/"
-        with:
-          message: "Version `${{ steps.automatic_releases.outputs.automatic_releases_tag }}` of `${{ github.repository }}` successfully released."
-          keybase_username: "${{ secrets.KeybaseUsername }}"
-          keybase_paper_key: "${{ secrets.KeybasePaperKey }}"
-          keybase_team_name: "${{ secrets.KeybaseTeamName }}"
-          keybase_topic_name: "${{ secrets.KeybaseTopicName }}"
